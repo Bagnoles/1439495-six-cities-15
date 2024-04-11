@@ -12,6 +12,7 @@ import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../st
 import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 import { getNearbyCards, getOfferComments, getOfferErrorStatus, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
+import ErrorScreen from '../error-screen/error-screen.tsx';
 
 const ImageItem = memo(({image}: {image: string}): JSX.Element => (
   <div className="offer__image-wrapper">
@@ -70,16 +71,12 @@ function OfferScreen(): JSX.Element {
     return <LoadingSpinner />;
   }
 
-  if (!offer) {
-    return <NotFoundScreen />;
+  if (isServerError) {
+    return <ErrorScreen />;
   }
 
-  if (isServerError) {
-    return (
-      <main className="page__main page__main--offer">
-        <h3>Произошла ошибка при загрузке данных.</h3>
-      </main>
-    );
+  if (!offer) {
+    return <NotFoundScreen />;
   }
 
   const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;

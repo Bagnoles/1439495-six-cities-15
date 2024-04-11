@@ -5,6 +5,7 @@ import FavoritesEmpty from './favorites-empty.tsx';
 import CityItem from '../../components/city-item/city-item.tsx';
 import { getFavoriteCards, getFavoriteCardsErrorStatus, getFavoriteCardsLoadingStatus } from '../../store/favorite-cards/favorite-cards-selectors.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
+import ErrorScreen from '../error-screen/error-screen.tsx';
 
 type TGroupedByCity = {
   [index: string]: TCard[];
@@ -30,7 +31,7 @@ function FavoritesScreen(): JSX.Element {
   }
 
   if (isError) {
-    return <p>Не удалось загрузить данные.</p>;
+    return <ErrorScreen />;
   }
 
   if (favoriteCards.length === 0) {

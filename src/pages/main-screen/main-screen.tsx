@@ -9,6 +9,7 @@ import { SortingOptions } from '../../const.ts';
 import NoCardsInCity from './no-cards-in-city.tsx';
 import { getActiveSort, getCards, getCardsErrorStatus } from '../../store/cards/cards-selectors.ts';
 import { getCity } from '../../store/city/city-selectors.ts';
+import ErrorScreen from '../error-screen/error-screen.tsx';
 
 const sortBy = {
   [SortingOptions.POPULAR]: (cards: TCard[]) => cards,
@@ -33,6 +34,10 @@ function MainScreen(): JSX.Element {
 
   const handleSelectActiveCard = useCallback((card?: TCard) => setActiveCard(card), []);
 
+  if (isServerError) {
+    return <ErrorScreen />;
+  }
+
   return (
     <main className={`page__main page__main--index ${cardsInActiveCity.length === 0 && 'page__main--index-empty'}`} data-testid='main-screen'>
       <h1 className="visually-hidden">Cities</h1>
@@ -41,8 +46,7 @@ function MainScreen(): JSX.Element {
           <CitiesList activeCity={city.name} />
         </section>
       </div>
-      {isServerError && (<p>Произошла ошибка при загрузке данных.</p>)}
-      {cardsInActiveCity.length === 0 && !isServerError ? <NoCardsInCity/> : (
+      {cardsInActiveCity.length === 0 ? <NoCardsInCity/> : (
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
