@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { TCard, TOffer, TReview } from '../../types/types';
 import { changeFavoriteStatus, fetchNearbyCards, fetchOfferComments, getOfferInfoByID, postCommentToOffer } from '../api-actions';
-import { toast } from 'react-toastify';
 
 type OfferInitialStateType = {
   offer: {
@@ -63,7 +62,6 @@ export const offerSlice = createSlice({
       .addCase(postCommentToOffer.rejected, (state) => {
         state.offer.isPostReviewError = true;
         state.offer.isPostCommentLoading = false;
-        toast.error('Не удалось отправить отзыв');
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         if (state.offer.offerInfo && state.offer.offerInfo.id === action.payload.id) {

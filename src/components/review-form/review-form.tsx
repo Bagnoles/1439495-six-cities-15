@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { CommentLength, RatingNames } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
 import { postCommentToOffer } from '../../store/api-actions.ts';
-import { getPostReviewLoadingStatus } from '../../store/offer/offer-selectors.ts';
+import { getPostReviewErrorStatus, getPostReviewLoadingStatus } from '../../store/offer/offer-selectors.ts';
+import { toast } from 'react-toastify';
 
 type InputItemProps = {
   value: string;
@@ -43,6 +44,7 @@ function InputItem({value, title, checkedValue, disabled, onInputChange}: InputI
 const ReviewForm = memo((): JSX.Element => {
   const { id: offerId } = useParams();
   const isPostReviewLoading = useAppSelector(getPostReviewLoadingStatus);
+  const isPostError = useAppSelector(getPostReviewErrorStatus);
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState<FormDataType>({
@@ -70,6 +72,9 @@ const ReviewForm = memo((): JSX.Element => {
             });
           }
         });
+    }
+    if (isPostError) {
+      toast.error('Не удалось отправить отзыв. Попробуйте еще раз.');
     }
   };
 
