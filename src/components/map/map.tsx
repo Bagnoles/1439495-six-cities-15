@@ -12,12 +12,12 @@ type MapProps = {
 }
 
 const defaultIcon = new Icon({
-  iconUrl: 'img/pin.svg',
+  iconUrl: '/six-cities/img/pin.svg',
   iconSize: [27, 39],
   iconAnchor: [13, 39]
 });
 const currentIcon = new Icon({
-  iconUrl: 'img/pin-active.svg',
+  iconUrl: '/six-cities/img/pin-active.svg',
   iconSize: [27, 39],
   iconAnchor: [13, 39]
 });
